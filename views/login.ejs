@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+
+    <style>
+        input[type=text], input[type=password] {
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .container {
+
+            vertical-align: middle;
+            padding: 16px;
+            padding-bottom: 2px;
+            margin: auto;
+        }
+
+        .button_container {
+          vertical-align: middle;
+          padding-left: 60px;
+          margin: 20px;
+        }
+
+        button {
+          margin-left: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    
+  <h1>Login / Signup</h1>
+
+  <form>
+  
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" id="username" placeholder="Enter Username" name="uname" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" id="password" placeholder="Enter Password" name="psw" required>
+  
+    </div>
+
+    <div class="button_container">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Signup</button>
+    </div>
+  
+  </form>
+
+  <p id='msg' style="padding-left: 90px;"><i>Login/Signup</i></p>
+
+  <script type="module" src="../indexScript.js"></script>
+</body>
+
+
+</html>
