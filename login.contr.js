@@ -64,6 +64,31 @@ class Controller {
         });
     };
 
+    // retrieve user (username only)
+    async findUser(user) {
+        this.#sequelize.sync();
+
+        let result = await this.#User.findOne({
+            where: {
+                username: user
+            },
+            raw: true
+        }).catch((error) => {
+            console.log('Failed to retrieve data', error);
+        });
+
+        if (!result) {
+            console.log('No user detected!');
+            return {detected: false, res: null};
+        }
+        else {
+            console.log(`User retrieved: ${result.username}`);
+            return {detected: true, res: result};
+        }
+
+    };
+
+
     // retrieve user
     async select(user, pword) {
         this.#sequelize.sync();

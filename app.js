@@ -1,5 +1,6 @@
 const http = require('http')
 const fs = require('fs')
+const bcrypt = require('bcrypt');
 
 const port = 3000
 const express = require('express');
@@ -74,6 +75,11 @@ app.get('/login', (req, res) => {
     res.render('login2');
 });
 
+// send signup page
+app.get('/signup', (req, res) => {
+    res.render('signup');
+})
+
 
 // receive user credentials from front to back.
 // authenticates users
@@ -111,12 +117,12 @@ app.post('/loginUser', async (req, res) => {
 
 // post stuff from front to end
 // add user to db
-app.post('/post', async (req, res) => {
+app.post('/signupUser', async (req, res) => {
 
     const parcel = req.body;
     console.log(`User: ${parcel.username}\nPass: ${parcel.password}`);
 
-    const cred = await database.select(parcel.username, parcel.password);
+    const cred = await database.findUser(parcel.username);
 
     // if user is already in the db
     if (cred.detected) {
@@ -125,7 +131,15 @@ app.post('/post', async (req, res) => {
     }
     else {
         console.log('User not in db');
-        database.insert(parcel.username, parcel.password);
+
+        // encrypt password before storing to db
+        bcrypt.hash(parcel.password, 10).then((hash) => {
+            database.insert(parcel.username, hash);
+        }).catch((error) => {
+            console.log('Could not store credentials', error);
+        });
+
+        //database.insert(parcel.username, parcel.password);
         res.status(300).send();
     }
 

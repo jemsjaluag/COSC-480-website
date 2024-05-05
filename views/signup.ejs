@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+
+    <style>
+        input[type=text], input[type=password] {
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .container {
+
+            vertical-align: middle;
+            padding: 16px;
+            padding-bottom: 2px;
+            margin: auto;
+        }
+
+        .button_container {
+          vertical-align: middle;
+          padding-left: 60px;
+          margin: 20px;
+        }
+
+        button {
+          margin-left: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    
+  <h1>Signup</h1>
+
+  <form action="/signupUser" method="post">
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <div class="input-field">
+       <input type="text" placeholder="Enter Username" name="username" required>
+      </div>
+  
+      <label for="psw"><b>Password</b></label>
+      <div class="input-field">
+        <input type="password" placeholder="Enter Password" name="password" required>
+      </div>
+    </div>
+  
+
+      <input type="submit" value="Sign Up">
+  
+  </form>
+
+  <p id='msg' style="padding-left: 90px;"><i>Signup</i></p>
+
+</body>
+
+
+</html>
