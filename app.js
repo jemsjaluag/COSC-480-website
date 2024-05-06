@@ -10,7 +10,8 @@ const Database = require('./login.contr');
 
 const app = express();
 
-//app.use(express.static('public'));
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 
@@ -56,10 +57,8 @@ app.get('/', (req, res) => {
     if (session.userid) {
         
        // res.send(`<h1>Welcome, ${session.userid}!<h1>\n
-         //       <a href=\'/logout'>Logout</a>`);
         res.redirect('/bank');
 
-        //res.sendFile('public/user.html', {root:__dirname});
     }
     else {
         // homepage
@@ -77,7 +76,7 @@ app.get('/login', (req, res) => {
 
 // send signup page
 app.get('/signup', (req, res) => {
-    res.render('signup');
+    res.render('signup2');
 })
 
 
@@ -91,26 +90,48 @@ app.post('/loginUser', async (req, res) => {
     //// debug
     console.log(`username: ${username} and ${password}`);
 
-    const cred = await database.select(username, password);
+    const user = await database.findUser(username);
 
     // if user's creds was not detected
-    if (!cred.detected) {
-        res.status(404);
+    if (!user.detected) {
         console.log('Did not find user');
         res.status(404).send('User not found');
+        return;
     }
-    // if found
+    // if username exists
     else {
         console.log('User found');
 
+        const creds = await database.select(username);
+        const hashedPassword = creds.password;
+
+        // compare/check encrypted password
+        if (await bcrypt.compare(password, hashedPassword)) {
+            
+            // save session
+            session = req.session;
+            session.userid = username;
+            console.log(req.session);
+
+           res.status(300).send();
+           // no redirect
+           // res.redirect('/bank');
+        }
+        else {
+            console.log('Invalid password');
+            res.status(403).send('Invalid password');
+            return;
+        }
+
+        /*
         // save session
         session = req.session;
         session.userid = username;
         console.log(req.session);
-        console.log('bank html');
 
         res.status(300);
         res.redirect('/bank');
+        */
     }
 });
 
@@ -122,24 +143,30 @@ app.post('/signupUser', async (req, res) => {
     const parcel = req.body;
     console.log(`User: ${parcel.username}\nPass: ${parcel.password}`);
 
+    // check db if username already exists
     const cred = await database.findUser(parcel.username);
 
     // if user is already in the db
     if (cred.detected) {
         console.log('User already in the db');
-        res.status(404).send();
+        // send error status
+        res.status(404).send('User already exists');
     }
     else {
         console.log('User not in db');
 
         // encrypt password before storing to db
-        bcrypt.hash(parcel.password, 10).then((hash) => {
-            database.insert(parcel.username, hash);
-        }).catch((error) => {
-            console.log('Could not store credentials', error);
-        });
+        bcrypt.hash(parcel.password, 10)
+            .then((hash) => {
+                database.insert(parcel.username, hash);
+            }).catch((error) => {
+                console.log('Could not store credentials', error);
+                res.status(404).send();
+                return;
+            });
 
         //database.insert(parcel.username, parcel.password);
+        // send OK status
         res.status(300).send();
     }
 

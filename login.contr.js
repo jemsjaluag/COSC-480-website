@@ -90,13 +90,12 @@ class Controller {
 
 
     // retrieve user
-    async select(user, pword) {
+    async select(user) {
         this.#sequelize.sync();
 
         let result = await this.#User.findOne({
             where: {
-                username: user,
-                password: pword
+                username: user
             },
             raw: true
         }).catch((error) => {
@@ -105,11 +104,15 @@ class Controller {
 
         if (!result) {
             console.log('No user detected!');
-            return {detected: false, res: null};
+            return {detected: false, 
+                    res: null, 
+                    password: null};
         }
         else {
             console.log(`User retrieved: ${result.username}`);
-            return {detected: true, res: result};
+            return {detected: true, 
+                    res: result,
+                    password: result.password};
         }
 
     };
