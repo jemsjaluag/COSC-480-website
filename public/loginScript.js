@@ -35,7 +35,9 @@ async function login(e) {
         username.value = '';
         password.value = '';
 
-        // replace window with the bank stuff
+        // replace window with the bank stuff.
+        // sort of a 'redirect' to a link.
+        // done from the client side / front end.
         window.location.href = 'http://localhost:8080/bank'
 
     }
