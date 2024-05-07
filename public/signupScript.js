@@ -26,7 +26,8 @@ async function signup(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: username.value
+            username: username.value,
+            password: password.value
         })
     });
 

@@ -41,6 +41,7 @@ async function login(e) {
         window.location.href = 'http://localhost:8080/bank'
 
     }
+    // if username is not found in db
     else if (res.status == 404){
         username.value = '';
         password.value = '';
@@ -49,6 +50,8 @@ async function login(e) {
         statusReport.innerHTML = 'Invalid credentials / User not found';
         statusReport.style.color = 'red';
     }
+    
+    // invalid password
     else if (res.status == 403){
         username.value = '';
         password.value = '';

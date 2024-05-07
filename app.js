@@ -70,7 +70,6 @@ app.get('/', (req, res) => {
 
 // send login page
 app.get('/login', (req, res) => {
-   // res.sendFile('public/login.html', {root:__dirname});
     res.render('login2');
 });
 
@@ -108,9 +107,15 @@ app.post('/loginUser', async (req, res) => {
         // compare/check encrypted password
         if (await bcrypt.compare(password, hashedPassword)) {
             
+            // get account info
+            const account = await database.getAccount(creds.userid);
+            const accountSavings = account.savings;
+
             // save session
             session = req.session;
-            session.userid = username;
+            session.userid = creds.userid;
+            session.username = creds.username;
+            session.savings = accountSavings;
             console.log(req.session);
 
            res.status(300).send();
@@ -173,6 +178,7 @@ app.post('/signupUser', async (req, res) => {
 });
 
 
+
 // logout
 app.get('/logout', (req, res) => {
     req.session.destroy();
@@ -180,7 +186,15 @@ app.get('/logout', (req, res) => {
 })
 
 app.get('/bank', (req, res) => {
-    res.render('bank', {name: session.userid, savings: 0});
+    res.render('bank', {session: session});
+})
+
+app.get('/getSession', (req, res) => {
+    const userCred = {
+        username: session.username, 
+        userid: session.userid
+    }
+    res.json(userCred);
 })
 
 // run server
