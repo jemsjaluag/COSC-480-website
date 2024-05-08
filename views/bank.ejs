@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowie Bank</title>
 
     <style>
         body {
@@ -19,15 +20,15 @@
             border: 2px solid #000;
             height: 600px;
             width: auto;
-            margin-left: 400px;
-            margin-right: 400px;
+            margin-left: 500px;
+            margin-right: 500px;
             margin-top: 40px;
         }
 
         h1 {
             color: #000;
             -webkit-text-stroke: 1px #000;
-            margin-top: 40px;
+            margin-top: 30px;
             padding-top: 30px;
         }
 
@@ -84,8 +85,7 @@
 <body>
     <div class="container">
         <h1>BOWIE BANK</h1>
-        <h2>Welcome, <%= session.username %>
-        </h2>
+        <h2>Welcome, <%= session.username %>!</h2>
 
         <div>
             <h2 id="savingsLabel">Savings: $ <%= session.savings %>
