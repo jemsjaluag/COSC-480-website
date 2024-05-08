@@ -175,6 +175,7 @@ class Controller {
                 userId: userId
             }}
         ).then((result) => {
+            console.log('ACCOUNT: Account amount updated');
             return result;
         }).catch((error) => {
             console.log('Account cannot be updated', error);

@@ -14,20 +14,26 @@
             width: auto;
         }
 
-        .container{
-            background-color: aquamarine;
+        .container {
+            background-color: #fff000;
+            border: 2px solid #000;
             height: 600px;
             width: auto;
-            margin-left: 120px;
-            margin-right: 120px;
-            
+            margin-left: 400px;
+            margin-right: 400px;
+            margin-top: 40px;
         }
 
         h1 {
-            color: #ffff00;
+            color: #000;
             -webkit-text-stroke: 1px #000;
             margin-top: 40px;
             padding-top: 30px;
+        }
+
+        h2 {
+            color: #000;
+            -webkit-text-stroke: 1px #000;
         }
 
         input[type=text] {
@@ -44,7 +50,7 @@
         }
 
         .form-box {
-            border: 2px solid #ffff00;
+            border: 2px solid #000;
             box-sizing: border-box;
             background-color: #fff;
             width: 300px;
@@ -72,17 +78,17 @@
     </style>
 
 
-    <title>BANK STUFF</title>
+    <title>BOWIE BANK</title>
 </head>
 
 <body>
     <div class="container">
-        <h1>BANK STUFF</h1>
+        <h1>BOWIE BANK</h1>
         <h2>Welcome, <%= session.username %>
         </h2>
 
         <div>
-            <h2>Savings: $ <%= savings %>
+            <h2 id="savingsLabel">Savings: $ <%= session.savings %>
             </h2>
         </div>
 
@@ -90,22 +96,22 @@
             <div class="form-container">
                 <label for="depositLabel"><b>Deposit</b></label>
                 <div class="input-field">
-                    <input type="text" placeholder="$$" name="deposit" id="deposit" required>
+                    <input type="text" inputmode="numeric" placeholder="$$$" name="deposit" id="deposit" required>
                 </div>
                 <button id="depositBtn">Deposit</button>
             </div>
             <div class="form-container">
                 <label for="withdrawLabel"><b>Withdraw</b></label>
                 <div class="input-field">
-                    <input type="text" placeholder="$$" name="withdraw" id="withdraw" required>
+                    <input type="text" inputmode="numeric" placeholder="$$$" name="withdraw" id="withdraw" required>
                 </div>
                 <button id="withdrawBtn">Withdraw</button>
             </div>
         </div>
+        <a href="/logout">Logout</a>
     </div>
 
 
-    <a href="/logout">Logout</a>
     <script src="/bankScript.js"></script>
 </body>
 

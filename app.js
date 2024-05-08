@@ -169,7 +169,12 @@ app.post('/signupUser', async (req, res) => {
 });
 
 // logout
-app.get('/logout', (req, res) => {
+// update new account value before exiting
+app.get('/logout', async (req, res) => {
+
+    console.log('Current amount before logout: ' + session.savings)
+    const result = await database.updateAccount(session.userid, session.savings)
+
     req.session.destroy();
     res.redirect('/');
 })
@@ -189,18 +194,14 @@ app.get('/getSession', (req, res) => {
     res.json(userCred);
 })
 
+// update amount in the account table
 app.post('/updateSession', (req, res) => {
     
     session.savings = req.body.currentAmount;
     console.log('NEW UPDATED AMOUNT: ' + session.savings);
-
     res.status(300).send('New amount transmitted');
 })
 
-app.post('/updateAccount', (req, res) => {
-    const userid = req.body.userid;
-    const newAmount = req.body.newAmount;
-})
 
 // run server
 app.listen(port2, function(error) {

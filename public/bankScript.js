@@ -97,14 +97,14 @@ async function withdraw(e) {
     if (isNaN(amount)) {
         console.log(amount);
         alert('Invalid amount input!');
-        depositAmt.value = '';
+        withdrawAmt.value = '';
         return;
     }
 
     // check if amount is too much
     if (amount > 10000) {
         alert('Amount entered is too much. ($10,000 Limit per Transaction)');
-        depositAmt.value = '';
+        withdrawAmt.value = '';
         return;
     }
 
