@@ -37,9 +37,11 @@ async function getSession() {
     console.log(session.userid);
 }
 
+// deposit function
 async function deposit(e) {
     e.preventDefault();
     
+    ///// input checking
     if (depositAmt.value == '') return;
 
     var amount = parseFloat(depositAmt.value);
@@ -62,14 +64,18 @@ async function deposit(e) {
 
     console.log(amount);
 
+    // add deposited amount to the current amount
     currentAmount += amount;
     console.log('New amount: ' + currentAmount);
 
+    // then change label
     savingsLabel.innerHTML = 'Savings: $ ' + currentAmount;
-
     depositAmt.value = '';
+
+    // add new amount to the session
     session.savings = currentAmount;
 
+    // pass the new current amount to the backend for saving (db)
     const result = await fetch(updateSessionURL, {
         method: 'POST',
         headers: {
@@ -80,14 +86,14 @@ async function deposit(e) {
         })
     });
 
-
     return;
-
 }
 
+// withdraw function
 async function withdraw(e) {
     e.preventDefault();
     
+    ///// input checking
     if (withdrawAmt.value == '') return;
 
     var amount = parseFloat(withdrawAmt.value);
@@ -110,15 +116,18 @@ async function withdraw(e) {
 
     console.log(amount);
 
+    // modify new amount
     currentAmount -= amount;
     console.log('New amount: ' + currentAmount);
 
+    // change label to reflect new current amount
     savingsLabel.innerHTML = 'Savings: $ ' + currentAmount;
 
     withdrawAmt.value = '';
+    // save in session
     session.savings = currentAmount;
 
-    
+    // send the new amount to the backend for saving (db)
     const result = await fetch(updateSessionURL, {
         method: 'POST',
         headers: {

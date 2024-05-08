@@ -39,13 +39,24 @@ app.set('view engine', 'ejs');
 // cookie parser middleware
 app.use(cookieParser());
 
+
+// middleware to stop browser caching
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    next();
+})
+
+
+
+///////////////////////////////////////////////////////
+///////////////// ROUTES //////////////////////////////
 ///////////////////////////////////////////////////////
 
 
 
 const database = new Database();
 const port2 = 8080;
-var session;
+var session = null;
 
 
 // home
@@ -89,6 +100,7 @@ app.post('/loginUser', async (req, res) => {
     //// debug
     console.log(`username: ${username} and ${password}`);
 
+    // find username
     const user = await database.findUser(username);
 
     // if user's creds was not detected
@@ -101,6 +113,7 @@ app.post('/loginUser', async (req, res) => {
     else {
         console.log('User found');
 
+        // get password of the user
         const creds = await database.select(username);
         const hashedPassword = creds.password;
 
@@ -127,7 +140,6 @@ app.post('/loginUser', async (req, res) => {
             res.status(403).send('Invalid password');
             return;
         }
-
     }
 });
 
@@ -165,7 +177,6 @@ app.post('/signupUser', async (req, res) => {
         // send OK status
         res.status(300).send();
     }
-
 });
 
 // logout
@@ -173,14 +184,23 @@ app.post('/signupUser', async (req, res) => {
 app.get('/logout', async (req, res) => {
 
     console.log('Current amount before logout: ' + session.savings)
-    const result = await database.updateAccount(session.userid, session.savings)
 
+    // update account first before destroying session
+    const result = await database.updateAccount(session.userid, session.savings)
     req.session.destroy();
     res.redirect('/');
 })
 
 // send bank page
 app.get('/bank', (req, res) => {
+
+    
+    if (!session.userid) {
+        res.redirect('/login');
+        return;
+    }
+    
+
     res.render('bank', {session: session});
 })
 

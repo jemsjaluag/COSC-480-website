@@ -32,13 +32,14 @@ async function login(e) {
 
     // report
     if (res.status == 300){
-        username.value = '';
-        password.value = '';
 
         // replace window with the bank stuff.
         // sort of a 'redirect' to a link.
         // done from the client side / front end.
-        window.location.href = 'http://localhost:8080/bank'
+        window.location.href = `http://localhost:8080/bank`
+
+        username.value = '';
+        password.value = '';
 
     }
     // if username is not found in db
