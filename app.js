@@ -128,15 +128,6 @@ app.post('/loginUser', async (req, res) => {
             return;
         }
 
-        /*
-        // save session
-        session = req.session;
-        session.userid = username;
-        console.log(req.session);
-
-        res.status(300);
-        res.redirect('/bank');
-        */
     }
 });
 
@@ -177,24 +168,38 @@ app.post('/signupUser', async (req, res) => {
 
 });
 
-
-
 // logout
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 })
 
+// send bank page
 app.get('/bank', (req, res) => {
     res.render('bank', {session: session});
 })
 
+// get current session
 app.get('/getSession', (req, res) => {
     const userCred = {
         username: session.username, 
-        userid: session.userid
+        userid: session.userid,
+        savings: session.savings
     }
     res.json(userCred);
+})
+
+app.post('/updateSession', (req, res) => {
+    
+    session.savings = req.body.currentAmount;
+    console.log('NEW UPDATED AMOUNT: ' + session.savings);
+
+    res.status(300).send('New amount transmitted');
+})
+
+app.post('/updateAccount', (req, res) => {
+    const userid = req.body.userid;
+    const newAmount = req.body.newAmount;
 })
 
 // run server
