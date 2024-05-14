@@ -33,6 +33,7 @@ async function getSession() {
 
     console.log(res);
     session = await res.json();
+    console.log(session);
     currentAmount = session.savings;
     console.log(session.userid);
 }
