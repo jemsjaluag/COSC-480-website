@@ -39,13 +39,13 @@ app.set('view engine', 'ejs');
 // cookie parser middleware
 app.use(cookieParser());
 
-/*
+
 // middleware to stop browser caching
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
     next();
 })
-*/
+
 
 
 
@@ -128,7 +128,7 @@ app.post('/loginUser', async (req, res) => {
             // save session
             session = req.session;
             session.userid = creds.userid;
-            session.email = creds.username;
+            session.username = creds.username;
             session.savings = accountSavings;
             console.log(req.session);
 
@@ -194,12 +194,10 @@ app.get('/logout', async (req, res) => {
 // send bank page
 app.get('/bank', (req, res) => {
 
-    /*
     if (!session.userid) {
         res.redirect('/login');
         return;
     }
-    */
     
 
     res.render('bank', {session: session});

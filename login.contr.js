@@ -9,6 +9,7 @@ class Controller {
     #user;
     #pass;
     #db;
+    #db_dialect
     #port;
     #sequelize;
     #User;
@@ -22,13 +23,14 @@ class Controller {
         this.#pass = process.env.DB_PASSWORD;
         this.#db = process.env.DB_DATABASE;
         this.#port = process.env.DB_PORT;
+        this.#db_dialect = process.env.DB_DIALECT;
 
 
         this.#sequelize = new Sequelize(
             this.#db, this.#user, this.#pass,
             {
                 host: this.#hostname,
-                dialect: 'mysql'
+                dialect: this.#db_dialect
             }
         );
 
