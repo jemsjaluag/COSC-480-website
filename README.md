@@ -13,6 +13,7 @@ If Workbench is not added automatically, click the Add button on the right and a
 2.	Open up Workbench and connect to the MySQL server.
 3.	On the top, click the Create a new schema icon. Name the new schema “credentials” and then click Apply.
 4.	Create a new user by clicking the Administration tab on the left and go to Users and Privileges. Click Add account, create the user of your own chosen credentials, and, on the Schema Privileges tab, click Add Entry, and add the CREATE, DROP, REFERENCES, SHOW VIEW, SELECT, INSERT, UPDATE, DELETE, EXECUTE privileges for the credentials schema. Click on Apply.
+NOTE: There is no need to create the tables manually. Sequelize will create the tables automatically when the application is run.
 
 Step 2: Setting up Node.js and the application
 1.	Create a folder, open the folder, right-click, and open Git Bash. (If you are using Windows 11, select “Show more options” after right-clicking.
